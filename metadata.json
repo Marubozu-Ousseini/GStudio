@@ -1,0 +1,5 @@
+{
+  "name": "Boutique GCP",
+  "description": "Une application e-commerce de démonstration construite avec React, TypeScript et Tailwind CSS, optimisée pour le déploiement sur le Free Tier de Google Cloud Platform.",
+  "requestFramePermissions": []
+}
