@@ -1,0 +1,12 @@
+node_modules
+npm-debug.log
+dist/public
+dist/*.map
+.git
+.gitignore
+Dockerfile
+README.md
+**/*.tsbuildinfo
+client/src/**/*.test.*
+client/src/**/*.spec.*
+attached_assets

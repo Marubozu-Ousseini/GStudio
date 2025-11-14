@@ -1,0 +1,124 @@
+Here's an updated prompt optimized for AWS Free Tier:
+
+Create a simple, production-ready e-commerce web application optimized for AWS Free Tier with the following requirements:
+Core Features
+
+Product catalog with search and filtering
+Shopping cart functionality
+User authentication (registration/login)
+Order checkout process
+Admin panel for product management
+Order history for users
+
+Technical Stack (Free Tier Optimized)
+
+Frontend: React with TypeScript (static build)
+Backend: Node.js with Express
+Database: PostgreSQL (AWS RDS Free Tier: db.t3.micro, 20GB)
+Authentication: JWT tokens (stateless)
+Styling: Tailwind CSS
+File Storage: AWS S3 Free Tier (5GB storage, 20,000 GET requests)
+
+Architecture Requirements (AWS Well-Architected Framework + Cost Optimization)
+Deployment Architecture (Free Tier)
+
+Compute: AWS EC2 t2.micro (750 hours/month free)
+Database: AWS RDS PostgreSQL db.t3.micro (750 hours/month free, 20GB storage)
+Storage: AWS S3 for product images (5GB free)
+CDN: CloudFront for static assets (1TB data transfer out free)
+DNS: Route 53 (50 hosted zones free for first year, $0.50/month after)
+
+Operational Excellence
+
+Implement structured logging with Winston (log to CloudWatch Free Tier: 5GB ingestion)
+Add health check endpoint (/health)
+Use environment variables for all configuration
+Include clear README with AWS deployment instructions
+Add API documentation comments
+Single EC2 instance deployment (no load balancer to save costs)
+
+Security
+
+Hash passwords with bcrypt
+Implement JWT token authentication (stateless - no session storage needed)
+Sanitize all user inputs
+Add CORS configuration
+Use parameterized SQL queries (no SQL injection)
+Add rate limiting on API endpoints
+Store secrets in AWS Systems Manager Parameter Store (free tier: 10,000 parameters)
+Security groups for EC2 and RDS
+HTTPS with AWS Certificate Manager (free)
+
+Reliability
+
+Implement error handling with try-catch blocks
+Add database connection retry logic
+Validate all API inputs with schema validation (Zod - lightweight)
+Return consistent error responses
+Database automated backups (7 days retention in Free Tier)
+Use PM2 for process management and auto-restart
+
+Performance Efficiency
+
+Implement database indexing on frequently queried fields
+Add pagination for product listings (limit 20 items per page)
+Use lazy loading for images
+Serve optimized images from S3/CloudFront
+Minimize bundle size with code splitting
+Cache static assets with CloudFront
+Use React.memo for expensive components
+Compress responses with gzip
+
+Cost Optimization (Critical)
+
+Use connection pooling for database (max 10 connections)
+Implement efficient database queries with proper indexing
+Minimize API calls where possible
+Compress images before uploading to S3
+Use CloudFront caching to reduce S3 GET requests
+Implement image lazy loading
+Set S3 lifecycle policies to remove old temporary files
+Use standard S3 storage class (not frequent access)
+Implement database query result caching (in-memory or Redis on same EC2)
+Serve React build from same EC2 (no separate hosting)
+
+File Structure
+/src
+  /api - Backend API routes
+  /components - React components
+  /services - Business logic
+  /utils - Helper functions
+  /config - Configuration files
+/public - Static assets
+/scripts - Deployment scripts
+Key Implementation Notes
+
+Separate business logic from route handlers
+Use middleware for authentication checks
+Implement centralized error handling
+Add input validation on both frontend and backend
+Create reusable React components
+Use TypeScript interfaces for type safety
+Build React app as static files served by Express
+Single server deployment (frontend + backend on same EC2)
+
+AWS Free Tier Specific Requirements
+
+Database: PostgreSQL connection limit of 20 (set pool max to 10)
+Storage: Compress and optimize all images before S3 upload
+Monitoring: Use CloudWatch Free Tier metrics only
+Backup: 7-day automated RDS backups (included in free tier)
+Traffic: Optimize for <100GB/month data transfer
+Compute: Single t2.micro instance (1GB RAM, 1 vCPU)
+
+Deployment Configuration
+
+Create Dockerfile for easy deployment
+Add .env.example file with required variables
+Ensure database connection works with AWS RDS
+Make app stateless (session data in database, not memory)
+Listen on process.env.PORT || 3000
+Serve React build from Express in production
+PM2 ecosystem file for process management
+Basic CloudFormation template or deployment script
+

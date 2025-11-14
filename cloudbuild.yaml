@@ -1,0 +1,16 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', '${_IMAGE_URI}', '.']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', '${_IMAGE_URI}']
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args: ['run', 'deploy', '${_SERVICE_NAME}', '--image', '${_IMAGE_URI}', '--region', '${_REGION}', '--platform', 'managed', '--allow-unauthenticated', '--port', '8080', '--set-env-vars', 'DATABASE_URL=${_DATABASE_URL},SESSION_SECRET=${_SESSION_SECRET}']
+substitutions:
+  _SERVICE_NAME: gstudio-app
+  _REGION: us-central1
+  _IMAGE_URI: gcr.io/$PROJECT_ID/gstudio-app:latest
+  _DATABASE_URL: replace-with-your-neon-connection-url
+  _SESSION_SECRET: change-me-prod-secret
+images:
+  - '${_IMAGE_URI}'
